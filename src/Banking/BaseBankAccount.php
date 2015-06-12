@@ -1,7 +1,7 @@
 <?php
 namespace Thru\BankApi\Banking;
 
-use Thru\Bank\Models\Run;
+use Thru\BankApi\Models\Run;
 
 class BaseBankAccount {
   protected $auth;
