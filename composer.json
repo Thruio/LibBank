@@ -1,0 +1,10 @@
+{
+    "name": "thru.io/libbank",
+    "authors": [
+        {
+            "name": "Matthew Baggett",
+            "email": "matthew@baggett.me"
+        }
+    ],
+    "require": {}
+}
