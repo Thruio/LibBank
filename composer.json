@@ -6,5 +6,15 @@
             "email": "matthew@baggett.me"
         }
     ],
-    "require": {}
+    "require": {},
+    "autoload"   : {
+      "psr-4": {
+        "Thru\\BankApi\\": "src"
+      }
+    },
+    "autoload-dev": {
+      "psr-4": {
+        "Thru\\BankApi\\Test\\": "tests/"
+      }
+    }
 }
