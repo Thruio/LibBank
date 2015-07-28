@@ -17,19 +17,26 @@ class Account extends ActiveRecord{
   protected $_table = "accounts";
 
   public $account_id;
+  public $account_holder_id;
   public $name;
   public $created;
   public $updated;
   public $last_check;
 
   /**
+   * @param $accountHolder AccountHolder
    * @param $name
    * @return Account
    */
-  static public function FetchOrCreateByName($name){
-    $account = Account::factory()->search()->where('name', $name)->execOne();
+  static public function FetchOrCreateByName(AccountHolder $accountHolder, $name){
+    $account = Account::factory()
+      ->search()
+      ->where('account_holder_id', $accountHolder->account_holder_id)
+      ->where('name', $name)
+      ->execOne();
     if(!$account){
       $account = new Account();
+      $account->account_holder_id = $accountHolder->account_holder_id;
       $account->name = $name;
       $account->save();
     }
