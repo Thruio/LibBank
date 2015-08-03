@@ -1,6 +1,7 @@
 <?php
 namespace Thru\BankApi\Banking;
 
+use Thru\BankApi\Models\AccountHolder;
 use Thru\BankApi\Models\Run;
 
 class BaseBankAccount {
@@ -39,7 +40,7 @@ class BaseBankAccount {
     $this->getSelenium()->takeScreenshot(APP_ROOT . "/screenshots/{$name}.png");
   }
 
-  public function run(Run $run){
+  public function run(AccountHolder $accountHolder, Run $run){
 
   }
 

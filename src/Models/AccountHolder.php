@@ -27,4 +27,21 @@ class AccountHolder extends ActiveRecord{
     }
     parent::save();
   }
+
+  /**
+   * @param $name
+   * @return AccountHolder
+   */
+  static public function FetchOrCreateByName($name){
+    $accountHolder = AccountHolder::factory()
+      ->search()
+      ->where('name', $name)
+      ->execOne();
+    if(!$accountHolder){
+      $accountHolder = new AccountHolder();
+      $accountHolder->name = $name;
+      $accountHolder->save();
+    }
+    return $accountHolder;
+  }
 }

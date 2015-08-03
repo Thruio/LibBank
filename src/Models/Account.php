@@ -7,6 +7,7 @@ use Thru\ActiveRecord\ActiveRecord;
 /**
  * Class Account
  * @var $account_id integer
+ * @var $account_holder_id integer
  * @var $name text
  * @var $created date
  * @var $updated date

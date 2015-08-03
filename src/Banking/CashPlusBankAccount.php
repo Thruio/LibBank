@@ -2,6 +2,7 @@
 namespace Thru\BankApi\Banking;
 
 use Thru\BankApi\Models\Account;
+use Thru\BankApi\Models\AccountHolder;
 use Thru\BankApi\Models\Balance;
 use Thru\BankApi\Models\Run;
 use Thru\BankApi\Models\Transaction;
@@ -13,9 +14,9 @@ class CashPlusBankAccount extends BaseBankAccount {
     parent::__construct($accountName);
   }
 
-  public function run(Run $run){
-    parent::run($run);
-    $account = Account::FetchOrCreateByName($this->getAccountName());
+  public function run(AccountHolder $accountHolder, Run $run){
+    parent::run($accountHolder, $run);
+    $account = Account::FetchOrCreateByName($accountHolder, $this->getAccountName());
     $this->getSelenium()->get($this->baseUrl);
     $this->getSelenium()->findElement(\WebDriverBy::name("ctl00\$_login\$UserName"))->clear()->sendKeys($this->getAuth("username"));
     $this->getSelenium()->findElement(\WebDriverBy::name("ctl00\$_login\$Password"))->clear()->sendKeys($this->getAuth("password"));
