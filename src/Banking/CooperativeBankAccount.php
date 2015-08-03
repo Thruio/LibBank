@@ -213,7 +213,11 @@ class CooperativeBankAccount extends BaseBankAccount {
           $transactionDate = date("Y-m-d H:i:s", strtotime(trim($cells[0]->getText())));
           $transactionMerchant = trim($cells[1]->getText());
           $transactionIn = doubleval(preg_replace("/[^0-9,.]/", "", trim($cells[2]->getText())));
-          $transactionOut = doubleval(preg_replace("/[^0-9,.]/", "", trim($cells[3]->getText())));
+          if(isset($cells[3])) {
+            $transactionOut = doubleval(preg_replace("/[^0-9,.]/", "", trim($cells[3]->getText())));
+          }else{
+            $transactionOut = 0;
+          }
 
           $transaction = Transaction::Create($run, $account, $transactionMerchant, $transactionDate, $transactionIn - $transactionOut);
 
