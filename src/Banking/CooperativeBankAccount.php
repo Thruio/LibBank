@@ -2,6 +2,7 @@
 namespace Thru\BankApi\Banking;
 
 use Thru\BankApi\Models\Account;
+use Thru\BankApi\Models\AccountHolder;
 use Thru\BankApi\Models\Balance;
 use Thru\BankApi\Models\Run;
 use Thru\BankApi\Models\Transaction;
@@ -13,8 +14,8 @@ class CooperativeBankAccount extends BaseBankAccount {
     parent::__construct($accountName);
   }
 
-  public function run(Run $run){
-    parent::run($run);
+  public function run(AccountHolder $accountHolder, Run $run){
+    parent::run($accountHolder, $run);
     $this->getSelenium()->get($this->baseUrl);
     if($this->getAuth('sort') && $this->getAuth('acct')){
       $this->getSelenium()->findElement(\WebDriverBy::id("sortcode"))->clear()->sendKeys($this->getAuth('sort'));
@@ -29,6 +30,8 @@ class CooperativeBankAccount extends BaseBankAccount {
 
     $words = ['first' => 0,'second' => 1,'third' => 2,'fourth' => 3];
     $pinBytes = str_split($this->getAuth('security'), 1);
+
+    sleep(2);
 
     $firstPinByteIdentifier  = strtolower($this->getSelenium()->findElement(\WebDriverBy::cssSelector("label[for='firstPassCodeDigit']"))->getText());
     $secondPinByteIdentifier = strtolower($this->getSelenium()->findElement(\WebDriverBy::cssSelector("label[for='secondPassCodeDigit']"))->getText());
