@@ -20,6 +20,8 @@ class AccountHolder extends ActiveRecord{
   public $created;
   public $updated;
 
+  private $_accounts;
+
   public function save(){
     $this->updated = date("Y-m-d H:i:s");
     if(!$this->created){
@@ -43,5 +45,15 @@ class AccountHolder extends ActiveRecord{
       $accountHolder->save();
     }
     return $accountHolder;
+  }
+
+  /**
+   * @return Account[]
+   */
+  public function getAccounts(){
+    if(!$this->_accounts){
+      $this->_accounts = Account::search()->where('account_holder_id', $this->account_holder_id)->exec();
+    }
+    return $this->_accounts;
   }
 }

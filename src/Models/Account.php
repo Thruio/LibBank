@@ -25,6 +25,7 @@ class Account extends ActiveRecord{
   public $last_check;
 
   private $_account_holder;
+  private $_balance;
 
   /**
    * @param $accountHolder AccountHolder
@@ -67,5 +68,14 @@ class Account extends ActiveRecord{
     return $this->_account_holder;
   }
 
+  /**
+   * @return Balance
+   */
+  public function getBalance(){
+    if(!$this->_balance){
+      $this->_balance = Balance::search()->where('account_id', $this->account_id)->order('run_id', 'DESC')->execOne();
+    }
+    return $this->_balance;
+  }
 
 }
