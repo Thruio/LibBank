@@ -47,7 +47,7 @@ class Account extends ActiveRecord{
     return $account;
   }
 
-  public function save(){
+  public function save($automatic_reload = true){
     $this->updated = date("Y-m-d H:i:s");
     if(!$this->created){
       $this->created = date("Y-m-d H:i:s");
@@ -55,7 +55,7 @@ class Account extends ActiveRecord{
     if(!$this->last_check){
       $this->last_check = date("Y-m-d H:i:s", 0);
     }
-    parent::save();
+    parent::save($automatic_reload);
   }
 
   /**

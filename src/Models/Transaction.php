@@ -30,12 +30,12 @@ class Transaction extends ActiveRecord{
   public $created;
   public $updated;
 
-  public function save(){
+  public function save($automatic_reload = true){
     $this->updated = date("Y-m-d H:i:s");
     if(!$this->created){
       $this->created = date("Y-m-d H:i:s");
     }
-    parent::save();
+    parent::save($automatic_reload);
   }
 
   /**

@@ -26,7 +26,7 @@ class Balance extends ActiveRecord{
 
   private $_run;
 
-  public function save(){
+  public function save($automatic_reload = true){
     $this->updated = date("Y-m-d H:i:s");
     if(!$this->created){
       $this->created = date("Y-m-d H:i:s");
@@ -35,7 +35,7 @@ class Balance extends ActiveRecord{
     $this->value = preg_replace("/[^0-9.-]/", "", $this->value);
     $this->value = doubleval($this->value);
 
-    parent::save();
+    parent::save($automatic_reload);
   }
 
   /**

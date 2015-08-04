@@ -37,12 +37,12 @@ class Run extends ActiveRecord{
     $this->updated = date("Y-m-d H:i:s");
   }
 
-  public function save(){
+  public function save($automatic_reload = true){
     $this->updated = date("Y-m-d H:i:s");
     if(!$this->created){
       $this->created = date("Y-m-d H:i:s");
     }
-    parent::save();
+    parent::save($automatic_reload);
   }
 
   public function end(){
