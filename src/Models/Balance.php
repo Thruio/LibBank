@@ -24,6 +24,8 @@ class Balance extends ActiveRecord{
   public $created;
   public $updated;
 
+  private $_run;
+
   public function save(){
     $this->updated = date("Y-m-d H:i:s");
     if(!$this->created){
@@ -34,5 +36,15 @@ class Balance extends ActiveRecord{
     $this->value = doubleval($this->value);
 
     parent::save();
+  }
+
+  /**
+   * @return Run
+   */
+  public function getRun(){
+    if(!$this->_run) {
+      $this->_run = Run::search()->where('run_id', $this->run_id)->execOne();
+    }
+    return $this->_run;
   }
 }
