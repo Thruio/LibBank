@@ -30,7 +30,7 @@ class Balance extends ActiveRecord{
       $this->created = date("Y-m-d H:i:s");
     }
 
-    $this->value = preg_replace("/[^0-9,.]/", "", $this->value);
+    $this->value = preg_replace("/[^0-9.]/", "", $this->value);
 
     parent::save();
   }
