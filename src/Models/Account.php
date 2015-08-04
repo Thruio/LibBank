@@ -24,6 +24,8 @@ class Account extends ActiveRecord{
   public $updated;
   public $last_check;
 
+  private $_account_holder;
+
   /**
    * @param $accountHolder AccountHolder
    * @param $name
@@ -53,6 +55,16 @@ class Account extends ActiveRecord{
       $this->last_check = date("Y-m-d H:i:s", 0);
     }
     parent::save();
+  }
+
+  /**
+   * @return AccountHolder
+   */
+  public function getAccountHolder(){
+    if(!$this->_account_holder){
+      $this->_account_holder = AccountHolder::search()->where('account_holder_id', $this->account_holder_id)->execOne();
+    }
+    return $this->_account_holder;
   }
 
 

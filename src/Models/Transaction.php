@@ -66,8 +66,9 @@ class Transaction extends ActiveRecord{
       $transaction->value = $value;
       $transaction->state = $state;
       $transaction->save();
-      echo "New Transaction.\n";
-      $run->getLogger()->addInfo("New transaction: {$transaction->name} {$transaction->value} at {$transaction->occured}");
+      $newTransactionMessage = "New transaction: {$account->getAccountHolder()->name}'s {$account->name} {$transaction->name} {$transaction->value} at {$transaction->occured}";
+      echo "{$newTransactionMessage}\n";
+      $run->getLogger()->addInfo($newTransactionMessage);
     }else{
       echo "Already Exists.\n";
     }
