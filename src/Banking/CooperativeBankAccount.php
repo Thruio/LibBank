@@ -132,7 +132,6 @@ class CooperativeBankAccount extends BaseBankAccount {
     }
 
     // Get Balances
-
     $accountsTable = $this->getSelenium()->findElement(\WebDriverBy::cssSelector("td.verttop:nth-child(2) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(5) > td:nth-child(1) > table:nth-child(1)"));
     $accountsTableRows = $accountsTable->findElements(\WebDriverBy::cssSelector("tr"));
     $accountsTableRows = array_slice($accountsTableRows,1);
@@ -168,39 +167,26 @@ class CooperativeBankAccount extends BaseBankAccount {
     foreach($accountsToCheck as $account){
       $accountName = $account['name'];
       $accountNameDisplay = $account['display'];
-      echo "A";
       $account = Account::FetchOrCreateByName($accountHolder, $accountNameDisplay);
-      echo "A";
       $accountsTable = $this->getSelenium()->findElement(\WebDriverBy::cssSelector("td.verttop:nth-child(2) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(5) > td:nth-child(1) > table:nth-child(1)"));
-      echo "A";
       $accountsTableRows = $accountsTable->findElements(\WebDriverBy::cssSelector("tr"));
-      echo "A";
       $accountsTableRows = array_slice($accountsTableRows,1);
-      echo "A";
       // Navigate to transaction log
       foreach($accountsTableRows as $accountsTableRow) {
-        echo "B";
-
         $links = $this->getSelenium()->findElements(\WebDriverBy::cssSelector("a[title='click here to go to recent items']"));
-        echo "B2";
 
         foreach($links as $link) {
-          echo "B3";
-
           if ($link->getText() == $accountName) {
             $link->click();
             break;
           }
         }
-        echo "C";
       }
 
       unset($accountsTable, $accountsTableRow, $link);
 
       // Get transaction log table
 
-      echo "D";
-      echo "URL2: " . $this->getSelenium()->getCurrentURL() . "\n";
       try {
         $summaryTable = $this->getSelenium()->findElement(\WebDriverBy::className("summaryTable"));
       }catch(\NoSuchElementException $e){
