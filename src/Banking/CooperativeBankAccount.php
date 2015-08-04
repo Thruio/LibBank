@@ -161,13 +161,15 @@ class CooperativeBankAccount extends BaseBankAccount {
       $balance->save();
 
       echo "Balance for {$accountNameDisplay} is {$balance->value}\n";
-      $accountsToCheck[] = $accountName;
+      $accountsToCheck[] = ['name' => $accountName, 'display' => $accountNameDisplay];
     }
 
     // Get Transactions
-    foreach($accountsToCheck as $accountName){
+    foreach($accountsToCheck as $account){
+      $accountName = $account['name'];
+      $accountNameDisplay = $account['display'];
       echo "A";
-      $account = Account::FetchOrCreateByName($accountHolder, $accountName);
+      $account = Account::FetchOrCreateByName($accountHolder, $accountNameDisplay);
       echo "A";
       $accountsTable = $this->getSelenium()->findElement(\WebDriverBy::cssSelector("td.verttop:nth-child(2) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(5) > td:nth-child(1) > table:nth-child(1)"));
       echo "A";
