@@ -9,6 +9,7 @@ use Thru\ActiveRecord\ActiveRecord;
  * @var $account_id integer
  * @var $account_holder_id integer
  * @var $name text
+ * @var $balance_inverted ENUM("Yes","No")
  * @var $created date
  * @var $updated date
  * @var $last_check date
@@ -20,6 +21,7 @@ class Account extends ActiveRecord{
   public $account_id;
   public $account_holder_id;
   public $name;
+  public $balance_inverted = "No";
   public $created;
   public $updated;
   public $last_check;
@@ -75,7 +77,7 @@ class Account extends ActiveRecord{
     if(!$this->_balance){
       $this->_balance = Balance::search()->where('account_id', $this->account_id)->order('run_id', 'DESC')->execOne();
     }
-    return $this->_balance;
+    return $this->balance_inverted=="Yes" ? $this->_balance*-1 : $this->_balance;
   }
 
 }
