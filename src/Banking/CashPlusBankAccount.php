@@ -14,8 +14,8 @@ class CashPlusBankAccount extends BaseBankAccount {
     parent::__construct($accountName);
   }
 
-  public function run(AccountHolder $accountHolder, Run $run){
-    parent::run($accountHolder, $run);
+  public function run(AccountHolder $accountHolder, Run $run, $accountLabel){
+    parent::run($accountHolder, $run, $accountLabel);
     $account = Account::FetchOrCreateByName($accountHolder, $this->getAccountName());
     $this->getSelenium()->get($this->baseUrl);
     $this->getSelenium()->findElement(\WebDriverBy::name("ctl00\$_login\$UserName"))->clear()->sendKeys($this->getAuth("username"));

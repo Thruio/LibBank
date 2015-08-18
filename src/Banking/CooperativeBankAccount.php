@@ -14,8 +14,8 @@ class CooperativeBankAccount extends BaseBankAccount {
     parent::__construct($accountName);
   }
 
-  public function run(AccountHolder $accountHolder, Run $run){
-    parent::run($accountHolder, $run);
+  public function run(AccountHolder $accountHolder, Run $run, $accountLabel){
+    parent::run($accountHolder, $run, $accountLabel);
     $this->getSelenium()->get($this->baseUrl);
     if($this->getAuth('sort') && $this->getAuth('acct')){
       $this->getSelenium()->findElement(\WebDriverBy::id("sortcode"))->clear()->sendKeys($this->getAuth('sort'));
@@ -140,7 +140,7 @@ class CooperativeBankAccount extends BaseBankAccount {
     foreach($accountsTableRows as $accountsTableRow){
       $tds = $accountsTableRow->findElements(\WebDriverBy::cssSelector("td"));
 
-      $accountName = $tds[0]->getText();
+      $accountName = $accountLabel . " - " . $tds[0]->getText();
       $accountBalance = $tds[1]->getText();
 
       $accountBalance = str_replace("£", "", $accountBalance);

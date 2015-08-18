@@ -9,6 +9,7 @@ class BaseBankAccount {
   protected $selenium;
   private $screenshotCount;
   private $accountName;
+  private $accountLabel;
 
   public function setAuth($auth){
     $this->auth = $auth;
@@ -40,8 +41,8 @@ class BaseBankAccount {
     $this->getSelenium()->takeScreenshot(APP_ROOT . "/screenshots/{$name}.png");
   }
 
-  public function run(AccountHolder $accountHolder, Run $run){
-
+  public function run(AccountHolder $accountHolder, Run $run, $accountLabel){
+    $this->accountLabel = $accountLabel;
   }
 
   public function cleanUp(){
@@ -52,7 +53,7 @@ class BaseBankAccount {
   }
 
   public function getAccountName(){
-    return $this->accountName;
+    return $this->accountLabel . " " . $this->accountName;
   }
 
 
