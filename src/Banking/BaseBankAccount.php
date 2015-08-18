@@ -53,7 +53,7 @@ class BaseBankAccount {
   }
 
   public function getAccountName(){
-    return $this->accountLabel . " " . $this->accountName;
+    return $this->accountLabel . " - " . $this->accountName;
   }
 
 
