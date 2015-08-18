@@ -142,6 +142,12 @@ class CooperativeBankAccount extends BaseBankAccount {
 
       $accountName = $tds[0]->getText();
       $accountBalance = $tds[1]->getText();
+
+      $accountBalance = str_replace("£", "", $accountBalance);
+      $polarity = substr($accountBalance,-1,1);
+      $accountBalance = $polarity . substr($accountBalance, 0, -1);
+      $accountBalance = doubleval($accountBalance);
+
       $accountSortCodeAndAccountNumber = explode(" ", $tds[2]->getText(),2);
       if(count($accountSortCodeAndAccountNumber) == 2) {
         $accountSortCode = trim($accountSortCodeAndAccountNumber[0]);
