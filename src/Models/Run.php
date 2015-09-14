@@ -30,11 +30,21 @@ class Run extends ActiveRecord{
 
   public function __construct(){
     parent::__construct();
-    $this->started = date("Y-m-d H:i:s");
-    $this->ended = date("Y-m-d H:i:s");
-    $this->exec_time = 0;
-    $this->created = date("Y-m-d H:i:s");
-    $this->updated = date("Y-m-d H:i:s");
+    if(!$this->started) {
+      $this->started = date("Y-m-d H:i:s");
+    }
+    if(!$this->ended) {
+      $this->ended = date("Y-m-d H:i:s");
+    }
+    if(!$this->exec_time) {
+      $this->exec_time = 0;
+    }
+    if(!$this->created) {
+      $this->created = date("Y-m-d H:i:s");
+    }
+    if(!$this->updated) {
+      $this->updated = date("Y-m-d H:i:s");
+    }
   }
 
   public function save($automatic_reload = true){
