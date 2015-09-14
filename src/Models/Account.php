@@ -77,7 +77,7 @@ class Account extends ActiveRecord{
     if(!$this->_balance){
       $this->_balance = Balance::search()->where('account_id', $this->account_id)->order('run_id', 'DESC')->execOne();
     }
-    return $this->balance_inverted=="Yes" ? $this->_balance*-1 : $this->_balance;
+    return $this->_balance;
   }
 
 }
