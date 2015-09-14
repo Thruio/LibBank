@@ -162,7 +162,7 @@ class CooperativeBankAccount extends BaseBankAccount {
       $balance = new Balance();
       $balance->run_id = $run->run_id;
       $balance->account_id = $account->account_id;
-      $balance->value = $accountBalance;
+      $balance->value = $account->balance_inverted == "Yes" ? $accountBalance * -1 : $accountBalance;
       $balance->save();
 
       echo "Balance for {$accountNameDisplay} is {$balance->value}\n";
