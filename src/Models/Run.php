@@ -27,6 +27,7 @@ class Run extends ActiveRecord{
 
   /** @var Logger */
   private $_logger;
+  private $_telegram;
 
   public function __construct(){
     parent::__construct();
@@ -68,5 +69,14 @@ class Run extends ActiveRecord{
 
   public function getLogger(){
     return $this->_logger;
+  }
+
+  public function setTelegram( $telegram){
+    $this->_telegram = $telegram;
+    return $this;
+  }
+
+  public function getTelegram(){
+    return $this->_telegram;
   }
 }

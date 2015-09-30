@@ -69,6 +69,10 @@ class Transaction extends ActiveRecord{
       $newTransactionMessage = "New transaction: {$account->getAccountHolder()->name}'s {$account->name} {$transaction->name} {$transaction->value} at {$transaction->occured}";
       echo "{$newTransactionMessage}\n";
       $run->getLogger()->addInfo($newTransactionMessage);
+      if($run->getTelegram()){
+        $func = $run->getTelegram();
+        $func($newTransactionMessage);
+      }
     }else{
       echo "Already Exists.\n";
     }
