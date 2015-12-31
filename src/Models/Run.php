@@ -14,69 +14,77 @@ use Thru\ActiveRecord\ActiveRecord;
  * @var $created date
  * @var $updated date
  */
-class Run extends ActiveRecord{
+class Run extends ActiveRecord
+{
 
-  protected $_table = "runs";
+    protected $_table = "runs";
 
-  public $run_id;
-  public $started;
-  public $ended;
-  public $exec_time;
-  public $created;
-  public $updated;
+    public $run_id;
+    public $started;
+    public $ended;
+    public $exec_time;
+    public $created;
+    public $updated;
 
   /** @var Logger */
-  private $_logger;
-  private $_telegram;
+    private $_logger;
+    private $_telegram;
 
-  public function __construct(){
-    parent::__construct();
-    if(!$this->started) {
-      $this->started = date("Y-m-d H:i:s");
+    public function __construct()
+    {
+        parent::__construct();
+        if (!$this->started) {
+            $this->started = date("Y-m-d H:i:s");
+        }
+        if (!$this->ended) {
+            $this->ended = date("Y-m-d H:i:s");
+        }
+        if (!$this->exec_time) {
+            $this->exec_time = 0;
+        }
+        if (!$this->created) {
+            $this->created = date("Y-m-d H:i:s");
+        }
+        if (!$this->updated) {
+            $this->updated = date("Y-m-d H:i:s");
+        }
     }
-    if(!$this->ended) {
-      $this->ended = date("Y-m-d H:i:s");
+
+    public function save($automatic_reload = true)
+    {
+        $this->updated = date("Y-m-d H:i:s");
+        if (!$this->created) {
+            $this->created = date("Y-m-d H:i:s");
+        }
+        parent::save($automatic_reload);
     }
-    if(!$this->exec_time) {
-      $this->exec_time = 0;
+
+    public function end()
+    {
+        $this->ended = date("Y-m-d H:i:s");
+        $this->exec_time = strtotime($this->ended) - strtotime($this->started);
+        $this->save();
     }
-    if(!$this->created) {
-      $this->created = date("Y-m-d H:i:s");
+
+    public function setLogger(Logger $logger)
+    {
+        $this->_logger = $logger;
+        return $this;
     }
-    if(!$this->updated) {
-      $this->updated = date("Y-m-d H:i:s");
+
+    public function getLogger()
+    {
+        return $this->_logger;
     }
-  }
 
-  public function save($automatic_reload = true){
-    $this->updated = date("Y-m-d H:i:s");
-    if(!$this->created){
-      $this->created = date("Y-m-d H:i:s");
+    public function setTelegram($telegram)
+    {
+        $this->_telegram = $telegram;
+        return $this;
     }
-    parent::save($automatic_reload);
-  }
 
-  public function end(){
-    $this->ended = date("Y-m-d H:i:s");
-    $this->exec_time = strtotime($this->ended) - strtotime($this->started);
-    $this->save();
-  }
-
-  public function setLogger(Logger $logger){
-    $this->_logger = $logger;
-    return $this;
-  }
-
-  public function getLogger(){
-    return $this->_logger;
-  }
-
-  public function setTelegram( $telegram){
-    $this->_telegram = $telegram;
-    return $this;
-  }
-
-  public function getTelegram(){
-    return $this->_telegram;
-  }
+    public function getTelegram()
+    {
+        return $this->_telegram;
+    }
 }

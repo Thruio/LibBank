@@ -13,38 +13,41 @@ use Thru\ActiveRecord\ActiveRecord;
  * @var $created date
  * @var $updated date
  */
-class Balance extends ActiveRecord{
+class Balance extends ActiveRecord
+{
 
-  protected $_table = "balances";
+    protected $_table = "balances";
 
-  public $balance_id;
-  public $run_id;
-  public $account_id;
-  public $value;
-  public $created;
-  public $updated;
+    public $balance_id;
+    public $run_id;
+    public $account_id;
+    public $value;
+    public $created;
+    public $updated;
 
-  private $_run;
+    private $_run;
 
-  public function save($automatic_reload = true){
-    $this->updated = date("Y-m-d H:i:s");
-    if(!$this->created){
-      $this->created = date("Y-m-d H:i:s");
+    public function save($automatic_reload = true)
+    {
+        $this->updated = date("Y-m-d H:i:s");
+        if (!$this->created) {
+            $this->created = date("Y-m-d H:i:s");
+        }
+
+        $this->value = preg_replace("/[^0-9.-]/", "", $this->value);
+        $this->value = doubleval($this->value);
+
+        parent::save($automatic_reload);
     }
-
-    $this->value = preg_replace("/[^0-9.-]/", "", $this->value);
-    $this->value = doubleval($this->value);
-
-    parent::save($automatic_reload);
-  }
 
   /**
    * @return Run
    */
-  public function getRun(){
-    if(!$this->_run) {
-      $this->_run = Run::search()->where('run_id', $this->run_id)->execOne();
+    public function getRun()
+    {
+        if (!$this->_run) {
+            $this->_run = Run::search()->where('run_id', $this->run_id)->execOne();
+        }
+        return $this->_run;
     }
-    return $this->_run;
-  }
 }

@@ -2,6 +2,7 @@
 
 namespace Thru\BankApi\Banking;
 
-class BankAccountException extends \Exception{
+class BankAccountException extends \Exception
+{
 
 }
