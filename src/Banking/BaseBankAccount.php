@@ -1,6 +1,7 @@
 <?php
 namespace Thru\BankApi\Banking;
 
+use Thru\BankApi\Models\Account;
 use Thru\BankApi\Models\AccountHolder;
 use Thru\BankApi\Models\Run;
 
@@ -10,6 +11,8 @@ class BaseBankAccount {
   private $screenshotCount;
   private $accountName;
   private $accountLabel;
+
+  protected $check_minimum_interval = "15 minutes ago";
 
   public function setAuth($auth){
     $this->auth = $auth;
@@ -43,6 +46,15 @@ class BaseBankAccount {
 
   public function run(AccountHolder $accountHolder, Run $run, $accountLabel){
     $this->accountLabel = $accountLabel;
+    $account = Account::FetchOrCreateByName($accountHolder, $this->getAccountName());
+
+    # Prevent checking the balance too often
+    if(strtotime($account->last_check) >= strtotime($this->check_minimum_interval)){
+      echo "Last checked less than {$this->check_minimum_interval}... Skipping\n";
+      return false;
+    }
+
+    return true;
   }
 
   public function cleanUp(){

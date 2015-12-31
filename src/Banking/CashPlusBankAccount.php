@@ -9,21 +9,16 @@ use Thru\BankApi\Models\Transaction;
 
 class CashPlusBankAccount extends BaseBankAccount {
   protected $baseUrl = "https://secure.membersaccounts.com";
-  protected $check_minimum_interval = "15 minutes ago";
 
   public function __construct($accountName){
     parent::__construct($accountName);
   }
 
   public function run(AccountHolder $accountHolder, Run $run, $accountLabel){
-    parent::run($accountHolder, $run, $accountLabel);
-    $account = Account::FetchOrCreateByName($accountHolder, $this->getAccountName());
-
-    # Prevent checking the balance too often
-    if(strtotime($account->last_check) >= strtotime($this->check_minimum_interval)){
-      echo "Last checked less than {$this->check_minimum_interval}... Skipping";
+    if(!parent::run($accountHolder, $run, $accountLabel)){
       return false;
     }
+    $account = Account::FetchOrCreateByName($accountHolder, $this->getAccountName());
 
     $this->getSelenium()->get($this->baseUrl);
     $this->getSelenium()->findElement(\WebDriverBy::name("ctl00\$_login\$UserName"))->clear()->sendKeys($this->getAuth("username"));

@@ -15,7 +15,9 @@ class CooperativeBankAccount extends BaseBankAccount {
   }
 
   public function run(AccountHolder $accountHolder, Run $run, $accountLabel){
-    parent::run($accountHolder, $run, $accountLabel);
+    if(!parent::run($accountHolder, $run, $accountLabel)){
+      return false;
+    }
     $this->getSelenium()->get($this->baseUrl);
     if($this->getAuth('sort') && $this->getAuth('acct')){
       $this->getSelenium()->findElement(\WebDriverBy::id("sortcode"))->clear()->sendKeys($this->getAuth('sort'));
