@@ -106,7 +106,7 @@ class CooperativeBankAccount extends BaseBankAccount
           // Do nothing
         }
 
-      // Birthplace?
+      // Memorable Name?
         try {
             $challengeMemorableName = $this->getSelenium()->findElement(\WebDriverBy::name("memorableName"));
             $challengeMemorableName->clear()->sendKeys($this->getAuth('memorable_name'));
